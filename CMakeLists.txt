@@ -1,7 +1,16 @@
 cmake_minimum_required(VERSION 3.0)
 
 project(vulkanreal)
-
-add_executable(vulkanreal main.cpp)
-
+find_package(Vulkan REQUIRED)
+find_package(glfw3 3.3 REQUIRED)
+find_package(X11 REQUIRED)
+find_package(Boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
+#find_package(XCB REQUIRED)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVK_USE_PLATFORM_XCB_KHR")
+#add_executable(vulkanreal main.cpp vulkan_enums.hpp vulkan_structs.hpp vulkan.hpp engine.cpp engine.h)
+add_executable(vulkanreal main.cpp  engine.cpp engine.h)
+target_link_libraries(vulkanreal PRIVATE Vulkan::Vulkan glfw3 X11 ${Boost_LIBRARIES})
 install(TARGETS vulkanreal RUNTIME DESTINATION bin)
+
